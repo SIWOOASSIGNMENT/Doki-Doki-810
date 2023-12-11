@@ -120,15 +120,15 @@ init python:
             self.DISPLAY_Y = 1080    
             self.COURT_LEFT = 0
             self.COURT_RIGHT = 1920
-            self.PADDLE_WIDTH = 80
-            self.PADDLE_HEIGHT = 80
+            self.PADDLE_WIDTH = 100
+            self.PADDLE_HEIGHT = 100
             self.PADDLE_Y = self.DISPLAY_Y - 200
             self.PROFESSOR_Y = 50
 
             #과제스피드
             self.bx = []
             for i in range(6):
-                self.bx.append(random.randrange(self.COURT_LEFT+50,self.COURT_RIGHT-100))
+                self.bx.append(random.randrange(self.COURT_LEFT,self.COURT_RIGHT-100))
             self.by = []
             for i in range(6):
                 self.by.append(100)
@@ -146,7 +146,7 @@ init python:
             self.Start_Time = time.time()
 
             #오브젝트
-            self.player = Solid("#ffffff", xsize=self.PADDLE_WIDTH, ysize=self.PADDLE_HEIGHT)
+            self.player = Solid("#ffffff", xsize=80, ysize=80)
             self.professor = Image("minigame/professor.png")
             self.energyoutline = Solid("#ffffff", xsize=210, ysize=40)
 
@@ -189,7 +189,7 @@ init python:
 
             #플레이어
             player = renpy.render(self.player, width, height, st, at)
-            r.blit(player, (int(self.playery)-self.PADDLE_WIDTH / 2, int(self.PADDLE_Y - self.PADDLE_HEIGHT / 2)))
+            r.blit(player, (int(self.playery)-self.PADDLE_WIDTH / 2, int(self.PADDLE_Y)))
 
             #교수님
             professor = renpy.render(self.professor, width, height, st, at)
@@ -223,18 +223,18 @@ init python:
             r.blit(ball6, (int(self.bx[5]), int(self.by[5])))
             
             for i in range(6):
-                if self.by[i] > self.PADDLE_Y - self.PADDLE_HEIGHT:
-                    if self.playery - self.PADDLE_WIDTH / 2 <= self.bx[i] <= self.playery + self.PADDLE_WIDTH / 2:
-                        self.bx[i] = random.randrange(self.COURT_LEFT+50,self.COURT_RIGHT-100)
+                if self.PADDLE_Y < self.by[i]+50 < self.DISPLAY_Y:
+                    self.bx[i] = random.randrange(self.COURT_LEFT,self.COURT_RIGHT-100)
+                    self.by[i] = 100 
+                    self.bspeed[i] = random.randrange(1300,2300)
+                elif self.by[i]+50 > self.PADDLE_Y - self.PADDLE_HEIGHT:
+                    if self.playery - self.PADDLE_WIDTH / 2 <= self.bx[i]+50 <= self.playery + self.PADDLE_WIDTH / 2:
+                        self.bx[i] = random.randrange(self.COURT_LEFT,self.COURT_RIGHT-100)
                         self.by[i] = 100 
                         self.bspeed[i] = random.randrange(1300,2300)
                         self.score += 30
                         if self.energynum < 200:
                             self.energynum += 20 
-                if self.PADDLE_Y < self.by[i] < self.DISPLAY_Y:
-                    self.bx[i] = random.randrange(self.COURT_LEFT+50,self.COURT_RIGHT-100)
-                    self.by[i] = 100 
-                    self.bspeed[i] = random.randrange(1300,2300)
 
             #과제 제출
             if self.energynum >= 200:
@@ -246,14 +246,13 @@ init python:
                 submit = renpy.render(self.submit, width, height, st, at)
                 r.blit(submit, (self.DISPLAY_X / 2 - 125, self.submity))
                 self.submity -= self.bdy * dtime * 1300
-                self.energynum = 0
 
             if self.submity <= self.PROFESSOR_Y + 100:
                 self.score += 500
                 self.submity = self.PADDLE_Y
                 self.submitstate = 0
 
-            if time.time()-self.Start_Time >= 30.:
+            if time.time()-self.Start_Time >= 20.:
                 self.gameover = "gameover"
                 renpy.timeout(0)
 
@@ -272,6 +271,7 @@ init python:
                 if ev.key == pygame.K_SPACE:
                     if self.energynum >= 200:
                         self.submitstate = 1
+                        self.energynum = 0
 
             if self.gameover:
                 return self.score
@@ -286,7 +286,6 @@ screen game():
 
 label play_minigame:
 
-    scene
     window hide  # Hide the window and quick menu while in pong
     $ quick_menu = False
 
