@@ -22,6 +22,12 @@ label start:
     $ name = renpy.call_screen("set_name",title="학생 이름은? (3글자 이상)", init_name="이름")
     $ na = Character( name , color="#ffffff")
 
+    while len(name) <3:
+        if len(name) <3:
+            "3글자 이상 입력하세요" with vpunch
+            $ name = renpy.call_screen("set_name",title="학생 이름은? (3글자 이상)", init_name="이름")
+            $ na = Character( name , color="#ffffff")
+
     none "....." with dissolve
     none "..군...ㅇ..." with dissolve
     none "...[name[1]][name[2]]......." with dissolve
@@ -252,7 +258,7 @@ init python:
                 self.submity = self.PADDLE_Y
                 self.submitstate = 0
 
-            if time.time()-self.Start_Time >= 20.:
+            if time.time()-self.Start_Time >= 30.:
                 self.gameover = "gameover"
                 renpy.timeout(0)
 
