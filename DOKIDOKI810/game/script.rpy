@@ -2,8 +2,9 @@ define none = Character('???')
 define hapro = Character('하둥한 교수님')
 define me = Character('나')
 
-#image 613 = "schoolclass/613.png"
-#image dormitory = "dormitory/dormitory.png"
+image 613 = "schoolclass/613.png"
+image dormitory = "dormitory/dormitory.png"
+image mini_back = "minigame/background.png"
 image happy_end = "schoolclass/happy_end.png"
 
 image hapro1 = im.FactorScale("professor/hapro.png",0.2)
@@ -34,7 +35,7 @@ label start:
     none "...일어나..." with dissolve
     none "...[name[1]][name[2]]군 일어나......"with dissolve
 
-    #scene 613
+    scene 613
     show hapro at rightCharacter
     play music "audio/ingame/start2.mp3" loop
 
@@ -64,7 +65,7 @@ label start:
     scene black with dissolve
     "([name]은(는) 과제를 받고 기숙사로 갔다)"
 
-    #scene dormitory with dissolve
+    scene dormitory with dissolve
     me "하... 이놈의 학과는 무슨 매일 과제만 해야 해..."
     me "졸린데... 잘까"
     me "아니야... 아직 1학년인데 벌써 포기하면 안되지"
@@ -291,8 +292,9 @@ screen game():
     add minigame
 
 label play_minigame:
-
-    window hide  # Hide the window and quick menu while in pong
+    
+    scene mini_back
+    window hide  #윈도우 숨기기
     $ quick_menu = False
 
     call screen game
@@ -343,7 +345,7 @@ label happy_end:
 
 label bad_end:
     
-    #scene dormitory with dissolve
+    scene dormitory with dissolve
     play music "audio/ingame/ending.mp3"
 
     me "하암...... "
@@ -352,7 +354,7 @@ label bad_end:
     scene black with dissolve
     "([name]은(는) 황급히 강의실로 달려갔다)"
 
-    #scene 613 with dissolve
+    scene 613 with dissolve
 
     me "허억...허억..."
 
