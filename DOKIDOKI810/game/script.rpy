@@ -128,7 +128,7 @@ init python:
             self.COURT_LEFT = 0
             self.COURT_RIGHT = 1920
             self.PADDLE_WIDTH = 100
-            self.PADDLE_HEIGHT = 100
+            self.PADDLE_HEIGHT = 80
             self.PADDLE_Y = self.DISPLAY_Y - 200
             self.PROFESSOR_Y = 50
 
@@ -153,7 +153,7 @@ init python:
             self.Start_Time = time.time()
 
             #오브젝트
-            self.player = Solid("#ffffff", xsize=80, ysize=80)
+            self.player = Image("minigame/folder.png")
             self.professor = Image("minigame/professor.png")
             self.energyoutline = Solid("#ffffff", xsize=210, ysize=40)
 
